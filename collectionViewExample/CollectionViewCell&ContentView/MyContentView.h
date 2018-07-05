@@ -12,5 +12,5 @@
 @property(nonatomic, strong) UILabel *label;
 @property(nonatomic, strong) UITextView *taskDeskription;
 
-- (id)initMyContentViewWith:(CGRect)labelRect :(NSString *)labelText;
+- (id)initMyContentViewWith:(CGRect)labelRect :(NSString *)labelText :(NSString *)textViewText;
 @end

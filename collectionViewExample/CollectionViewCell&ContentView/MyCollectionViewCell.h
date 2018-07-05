@@ -12,5 +12,5 @@
 @interface MyCollectionViewCell : UICollectionViewCell
 @property(nonatomic, strong) MyContentView *myContentView;
 
-- (void) setUpCell:(NSString *)labelText;
+- (void) setUpCellWithLabelText:(NSString *)labelText textViewText:(NSString *)textViewText;
 @end

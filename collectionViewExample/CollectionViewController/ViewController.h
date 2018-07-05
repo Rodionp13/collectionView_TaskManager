@@ -8,8 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import "TaskDetailVC.h"
+#import "MyCollectionViewCell.h"
+#import "MyContentView.h"
 
-@interface ViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegateFlowLayout>
+@interface ViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, TaskDetailVCDelegate>
 @property(nonatomic,  strong) NSArray *data;
 @property(nonatomic, strong) UICollectionView *myCollectionView;
 @property(nonatomic, strong) TaskDetailVC *taskVC;

@@ -11,11 +11,11 @@
 
 @implementation MyCollectionViewCell
 
-- (void) setUpCell:(NSString *)labelText {
+- (void) setUpCellWithLabelText:(NSString *)labelText textViewText:(NSString *)textViewText {
     [[self layer] setBorderWidth:5];
     [[self layer] setBorderColor:UIColor.greenColor.CGColor];
-    _myContentView = [[MyContentView alloc] initMyContentViewWith:self.contentView.bounds :labelText];
-   
+    _myContentView = [[MyContentView alloc] initMyContentViewWith:[[self contentView] bounds] :labelText :textViewText];
+    
     [self addSubview:_myContentView];
 }
 @end

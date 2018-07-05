@@ -10,7 +10,7 @@
 
 @implementation MyContentView
 
-- (id)initMyContentViewWith:(CGRect)labelRect :(NSString *)labelText {
+- (id)initMyContentViewWith:(CGRect)labelRect :(NSString *)labelText :(NSString *)textViewText {
     self = [super init];
     
     if(self)
@@ -20,6 +20,7 @@
         [_label setTextAlignment:NSTextAlignmentCenter];
         [self addSubview:_label];
         _taskDeskription = [[UITextView alloc] init];
+        [_taskDeskription setText:textViewText];
         [self addSubview:_taskDeskription];
     }
     return self;

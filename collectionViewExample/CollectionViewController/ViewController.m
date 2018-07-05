@@ -7,8 +7,6 @@
 //
 
 #import "ViewController.h"
-#import "MyCollectionViewCell.h"
-#import "TaskDetailVC.h"
 
 @interface ViewController ()
 @end
@@ -26,6 +24,7 @@ static NSString *const cellIdentifire = @"cellIdentifire";
     [self setUpRightBarButtonItem];
     
     _taskVC = [[TaskDetailVC alloc] init];
+    [[self taskVC] setDelegate: self];
 }
 
 - (void) setUpMyCollectionView {
@@ -37,31 +36,49 @@ static NSString *const cellIdentifire = @"cellIdentifire";
     [self.view addSubview:_myCollectionView];
 }
 
+
+- (void)presentCollectionVCWithUpdatedDataSource:(NSArray *)updatedDataSource withPresentedIndexPath:(NSIndexPath *)presentedIndexPath {
+    NSMutableArray *mutData = [[self data] mutableCopy];
+    [mutData removeObjectAtIndex:presentedIndexPath.row];
+    [mutData insertObject:updatedDataSource atIndex:presentedIndexPath.row];
+    
+    [self setData:[mutData copy]];
+
+}
+
+
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     return self.data.count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     MyCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifire forIndexPath:indexPath];
-    [cell setUpCell:[[self data] objectAtIndex:indexPath.row]];
-    [self passDataWithCell:cell];
+    
+    NSString *labelText = [[[self data] objectAtIndex:indexPath.row] objectAtIndex:0];
+    NSString *textViewText = [[[self data] objectAtIndex:indexPath.row] objectAtIndex:1];
+    [cell setUpCellWithLabelText:labelText textViewText:textViewText];
+    
+    [self passDataWithIndexPath:indexPath];
     
     return cell;
 }
 
-- (void) passDataWithCell:(MyCollectionViewCell *)cell {
-    [[self navigationController] presentViewController:self.taskVC animated:YES completion:^{
-        [self.taskVC setLabel:cell.myContentView.label];
-        NSLog(@"VC %@", self.taskVC.label);
-    }];
+- (void) passDataWithIndexPath:(NSIndexPath *)indexPath {
+    NSString *labelText = [[self data] objectAtIndex:indexPath.row][0];
+    NSString *textViewText = [[self data] objectAtIndex:indexPath.row][1];
+    [self.taskVC setCollectionViewDataSource:@[@[labelText, textViewText]]];
+    [self.taskVC setPresentedIndexPath:indexPath];
+    
+    [[self navigationController] presentViewController:[self taskVC] animated:YES completion:nil];
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    [[self navigationController] pushViewController:[self taskVC] animated:YES];
     NSLog(@"tapped on Cell");
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-    return CGSizeMake(100, 100);
+    return CGSizeMake(200, 100);
 }
 
 - (void) setUpRightBarButtonItem {
@@ -75,7 +92,7 @@ static NSString *const cellIdentifire = @"cellIdentifire";
 
 
 - (void)addNewCell:(id)sender {
-    NSArray *dataForNewCell = @[@"Tap On Me"];
+    NSArray *dataForNewCell = @[@[@"Title Label input", @"TextView input"]];
     ViewController *__weak weakSelf = self;
     
     [self.myCollectionView performBatchUpdates:^{
@@ -102,6 +119,5 @@ static NSString *const cellIdentifire = @"cellIdentifire";
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
 
 @end

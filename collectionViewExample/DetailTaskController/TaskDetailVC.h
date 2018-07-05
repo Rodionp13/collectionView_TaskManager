@@ -7,9 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
+@protocol TaskDetailVCDelegate
+- (void) presentCollectionVCWithUpdatedDataSource:(NSArray *)updatedDataSource withPresentedIndexPath:(NSIndexPath *)presentedIndexPath;
+@end
+
 
 @interface TaskDetailVC : UIViewController
-@property(nonatomic, strong) UILabel *label;
-@property(nonatomic, strong) UITextView *textView;
+@property(nonatomic, strong) UITextField *textForTitle;
+@property(nonatomic, strong) UITextField *textForDescription;
+@property(nonatomic, strong) UITextView *textViewForDescription;
+@property(nonatomic, strong) NSArray *collectionViewDataSource;
+@property(nonatomic ,strong) NSIndexPath *presentedIndexPath;
 
+@property(nonatomic, weak) id <TaskDetailVCDelegate> delegate;
 @end
